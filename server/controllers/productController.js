@@ -1,17 +1,6 @@
 const Products = require('../models/Marketplace');
 
-// Create a new product
-exports.createProduct = async (req, res) => {
-  try {
-    const product = new Product(req.body);
-    await product.save();
-    res.status(201).send(product);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-};
-
-// Retrieve all products
+//GET /api/products
 exports.getProducts = async (req, res) => {
   try {
     const products = await Product.find();
@@ -21,7 +10,7 @@ exports.getProducts = async (req, res) => {
   }
 };
 
-// Retrieve a product by ID
+//GET /api/products/:id
 exports.getProductById = async (req, res) => {
   try {
     const product = await Product.findById(req.params.id);
@@ -32,7 +21,18 @@ exports.getProductById = async (req, res) => {
   }
 };
 
-// Update a product
+//POST /api/products
+exports.createProduct = async (req, res) => {
+  try {
+    const product = new Product(req.body);
+    await product.save();
+    res.status(201).send(product);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
+
+//PUT /api/products
 exports.updateProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -43,7 +43,7 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// Delete a product
+//DELETE /api/products/:id
 exports.deleteProduct = async (req, res) => {
   try {
     const product = await Product.findByIdAndDelete(req.params.id);
@@ -54,6 +54,7 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
+//DELETE /api/products
 exports.deleteAllProducts = async (req, res) => {
     try {
       await Product.deleteMany({});
@@ -63,12 +64,13 @@ exports.deleteAllProducts = async (req, res) => {
     }
   };
 
-  exports.getProductsByName = async (req, res) => {
-    try {
-      const name = req.query.name;
-      const products = await Product.find({ name: { $regex: name, $options: 'i' } });
-      res.status(200).send(products);
-    } catch (error) {
-      res.status(400).send(error);
-    }
-  };
+//GET api/products?name=[kw]
+exports.getProductsByName = async (req, res) => {
+  try {
+    const name = req.query.name;
+    const products = await Product.find({ name: { $regex: name, $options: 'i' } });
+    res.status(200).send(products);
+  } catch (error) {
+    res.status(400).send(error);
+  }
+};
