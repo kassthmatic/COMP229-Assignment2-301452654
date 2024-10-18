@@ -4,7 +4,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon server.js",
-    "build": "echo 'No build step for the server"
+    "build": "echo 'No build step for the server'"
   },
   "author": "",
   "license": "ISC",
